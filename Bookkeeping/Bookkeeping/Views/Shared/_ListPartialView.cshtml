@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Bookkeeping.Models.ViewModels.RecordDataViewModel>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>#</th>
+                <th>類別</th>
+                <th>日期</th>
+                <th>金額</th>
+            </tr>
+            @{ var i = 1; }
+            @foreach(var record in Model)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@record.RecordClass</td>
+                    <td>@record.RecordDate</td>
+                    <td>@record.RecordAmount</td>
+                </tr>
+                i++;
+            }
+        </table>
+    </div>
+</div>
