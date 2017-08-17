@@ -1,25 +1,30 @@
-﻿@model IEnumerable<Bookkeeping.Models.ViewModels.RecordDataViewModel>
+﻿@model PagedList.IPagedList<Bookkeeping.Models.ViewModels.RecordDataViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <div class="row">
     <div class="col-md-12">
         <table class="table table-bordered table-hover">
             <tr>
                 <th>#</th>
-                <th>類別</th>
-                <th>日期</th>
-                <th>金額</th>
+                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().RecordClass)</th>
+                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().RecordDate)</th>
+                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().RecordAmount)</th>
             </tr>
             @{ var i = 1; }
             @foreach(var record in Model)
             {
                 <tr>
                     <td>@i</td>
-                    <td>@record.RecordClass</td>
-                    <td>@record.RecordDate</td>
-                    <td>@record.RecordAmount</td>
+                    <td>@Html.DisplayFor(m=> record.RecordClass)</td>
+                    <td>@Html.DisplayFor(m => record.RecordDate)</td>
+                    <td>@Html.DisplayFor(m => record.RecordAmount)</td>
                 </tr>
                 i++;
             }
         </table>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of  @Model.PageCount
+        @Html.PagedListPager(Model,
+  page => Url.Action("Index", new { page }))
     </div>
 </div>
