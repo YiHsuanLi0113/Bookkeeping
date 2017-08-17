@@ -19,5 +19,10 @@ namespace Bookkeeping.Models
         public int Amounttt { get; set; }
         public System.DateTime Dateee { get; set; }
         public string Remarkkk { get; set; }
+
+        //public static implicit operator AccountBook(AccountBook v)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
