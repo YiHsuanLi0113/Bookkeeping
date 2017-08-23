@@ -1,44 +1,56 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-@model PagedList.IPagedList<Bookkeeping.Models.ViewModels.RecordDataViewModel>
-@using PagedList.Mvc;
+@model Bookkeeping.Models.ViewModels.RecordDataViewModel
 
 <div class="well">
-    <form class="form-horizontal">
-        <div class="form-group">
-            <label for="category" class="col-sm-2 control-label">類別</label>
-            <div class="col-sm-10">
-                <select id="category" class="form-control">
-                    <option value="" selected>請選擇</option>
-                    <option>支出</option>
-                    <option>收入</option>
-                </select>
+    @using (Ajax.BeginForm("Create", "Home", new AjaxOptions { UpdateTargetId = "insertedRecord" }, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+            <div class="form-group">
+                @Html.LabelFor(model => model.RecordClass, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    <select id="category" class="form-control">
+                        <option value="" selected>請選擇</option>
+                        <option>支出</option>
+                        <option>收入</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="money" class="col-sm-2 control-label">金額</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="money" placeholder="金額">
+            <div class="form-group">
+                @Html.LabelFor(model => model.RecordAmount, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.RecordAmount, new { htmlAttributes = new { @class = "form-control", placeholder = "金額", type = "text" } })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="date" class="col-sm-2 control-label">日期</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="date" placeholder="日期">
+            <div class="form-group">
+                @Html.LabelFor(model => model.RecordDate, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.RecordDate, new { htmlAttributes = new { @class = "form-control", placeholder = "日期", type = "date" } })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="description" class="col-sm-2 control-label">備註</label>
-            <div class="col-sm-10">
-                <textarea class="form-control" id="description"></textarea>
+            <div class="form-group">
+                @Html.LabelFor(model => model.RecordMemo, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(model => model.RecordMemo, new { htmlAttributes = new { @class = "form-control", placeholder = "備註" } })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-8 col-sm-4">
-                <button type="submit" class="btn btn-default">送出</button>
+            <div class="form-group">
+                <div class="col-sm-offset-8 col-sm-4">
+                    <button type="submit" class="btn btn-default">送出</button>
+                </div>
             </div>
-        </div>
-    </form>
+    }
 </div>
-@Html.Partial("_ListPartialView")
+<div id="insertedRecord">
+    @Html.Action("RenderResult", "Home")
+    @Html.Partial("_ListPartialView")
+
+
+    @section Scripts{
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    }

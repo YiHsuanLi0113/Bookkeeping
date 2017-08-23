@@ -21,7 +21,7 @@ namespace Bookkeeping.Controllers
             _recordSvc = new RecordListService(unitOfWork);
         }
 
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(int? page)
         {
             //List<RecordDataViewModel> record = new List<RecordDataViewModel>();
             //DateTime date = new DateTime(2017, 7, 24);
@@ -35,13 +35,7 @@ namespace Bookkeeping.Controllers
             //        RecordAmount = 1000
             //    });
             //}               
-            int currentPage = page < 1 ? 1 : page;
-
-            var source = _recordSvc.Lookup();
-
-            var result = source.ToPagedList(currentPage, pageSize);
-
-            return View(result);
+            return View();
         }
 
         public ActionResult About()
@@ -60,25 +54,25 @@ namespace Bookkeeping.Controllers
         // POST: RecordList/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "RecordId,RecordClass,RecordAmount,RecordDate")] RecordDataViewModel record)
+        public ActionResult Create([Bind(Include = "RecordId,RecordClass,RecordAmount,RecordDate,RecordMemo")] RecordDataViewModel record)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 record.RecordId = Math.Abs((Guid.NewGuid().GetHashCode()));
                 _recordSvc.Add(record);
                 _recordSvc.Save();
 
                 return RedirectToAction("Index");
-            }
-            var result = new RecordDataViewModel()
-            {
-                RecordId = record.RecordId,
-                RecordClass = record.RecordClass,
-                RecordAmount = record.RecordAmount,
-                RecordDate = record.RecordDate,
-                RecordMemo = record.RecordMemo
-            };
-            return View(result);
+            //}
+            //var result = new RecordDataViewModel()
+            //{
+            //    RecordId = record.RecordId,
+            //    RecordClass = record.RecordClass,
+            //    RecordAmount = record.RecordAmount,
+            //    RecordDate = record.RecordDate,
+            //    RecordMemo = record.RecordMemo
+            //};
+            //return View(result);
         }
 
 
@@ -87,6 +81,11 @@ namespace Bookkeeping.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        private IPagedList<RecordDataViewModel> getPagedList(int page)
+        {
+            return _recordSvc.Lookup().OrderByDescending(x => x.RecordDate).ToPagedList(page, pageSize);
         }
     }
 }
