@@ -76,6 +76,7 @@ namespace Bookkeeping.Controllers
                 RecordClass = record.RecordClass,
                 RecordAmount = record.RecordAmount,
                 RecordDate = record.RecordDate,
+                RecordMemo = record.RecordMemo
             };
             return View(result);
         }

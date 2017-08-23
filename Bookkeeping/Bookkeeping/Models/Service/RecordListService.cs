@@ -31,6 +31,7 @@ namespace Bookkeeping.Models.Service
                 RecordClass = record.Categoryyy == 0 ? "支出" : "收入",
                 RecordAmount = record.Amounttt,
                 RecordDate = record.Dateee,
+                RecordMemo = record.Remarkkk
             }).ToList();
             return result;
         }
@@ -49,7 +50,8 @@ namespace Bookkeeping.Models.Service
                 Id = ToGuid(record.RecordId),
                 Categoryyy = record.RecordClass == "支出" ?  0 : 1 ,
                 Amounttt = record.RecordAmount,
-                Dateee = record.RecordDate
+                Dateee = record.RecordDate,
+                Remarkkk = record.RecordMemo
             };
             Add(result);
         }
