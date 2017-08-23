@@ -1,7 +1,18 @@
-﻿@model PagedList.IPagedList<Bookkeeping.Models.ViewModels.RecordDataViewModel>
-@using PagedList.Mvc;
+﻿@using PagedList.Mvc;
+@using Bookkeeping.Models.ViewModels;
+@model PagedList.IPagedList<Bookkeeping.Models.ViewModels.RecordDataViewModel>
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
+@helper getFontColor(int i, string color,RecordDataViewModel model)
+{
+    <tr style="color: @color">
+        <td>@i</td>
+        <td>@Html.DisplayFor(m => model.RecordClass)</td>
+        <td>@Html.DisplayFor(m => model.RecordDate)</td>
+        <td>@Html.DisplayFor(m => model.RecordAmount)</td>
+    </tr>
+}
 <div class="row">
     <div class="col-md-12">
         <table class="table table-bordered table-hover">
@@ -14,12 +25,17 @@
             @{ var i = 1; }
             @foreach(var record in Model)
             {
-                <tr>
-                    <td>@i</td>
-                    <td>@Html.DisplayFor(m=> record.RecordClass)</td>
-                    <td>@Html.DisplayFor(m => record.RecordDate)</td>
-                    <td>@Html.DisplayFor(m => record.RecordAmount)</td>
-                </tr>
+                string fontColor = "";
+                switch(record.RecordClass)
+                {
+                    case "支出" :
+                        fontColor = "#BF0060";
+                        break;
+                    case "收入" :
+                        fontColor = "#005AB5";
+                        break;
+                }
+                @getFontColor(i, fontColor, record)
                 i++;
             }
         </table>
