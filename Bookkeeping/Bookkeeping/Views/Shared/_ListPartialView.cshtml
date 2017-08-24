@@ -1,14 +1,13 @@
 ﻿@using PagedList.Mvc;
-@using Bookkeeping.Models.ViewModels;
+@using Bookkeeping.Models.ViewModels
+@using Bookkeeping.Models
 @model PagedList.IPagedList<Bookkeeping.Models.ViewModels.RecordDataViewModel>
-
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-
-@helper getFontColor(int i, string color,RecordDataViewModel model)
+@helper changeRecordColor(string ftColor, int i, RecordDataViewModel model)
 {
-    <tr style="color: @color">
+    <tr style="color:@ftColor">
         <td>@i</td>
-        <td>@Html.DisplayFor(m => model.RecordClass)</td>
+        <td> @Html.DisplayFor(m => model.RecordClass)</td>
         <td>@Html.DisplayFor(m => model.RecordDate)</td>
         <td>@Html.DisplayFor(m => model.RecordAmount)</td>
     </tr>
@@ -23,24 +22,26 @@
                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().RecordAmount)</th>
             </tr>
             @{ var i = 1; }
-            @foreach(var record in Model)
+            @foreach (var record in Model)
             {
                 string fontColor = "";
-                switch(record.RecordClass)
+                switch (record.RecordClass)
                 {
-                    case "支出" :
-                        fontColor = "#BF0060";
+                    case "支出":
+                        fontColor = "#C70000"; //紅色
                         break;
-                    case "收入" :
-                        fontColor = "#005AB5";
+                    case "收入":
+                        fontColor = "#00579E"; //藍色
+                        break;
+                    default:
                         break;
                 }
-                @getFontColor(i, fontColor, record)
+                @changeRecordColor(fontColor, i, record)
                 i++;
             }
         </table>
         Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of  @Model.PageCount
         @Html.PagedListPager(Model,
-  page => Url.Action("Index", new { page }))
+  page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { UpdateTargetId = "insertedRecord" }))
     </div>
 </div>

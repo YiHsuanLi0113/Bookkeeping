@@ -38,13 +38,6 @@ namespace Bookkeeping.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
         // GET: RecordList/Create
         public ActionResult Create()
         {
@@ -56,14 +49,12 @@ namespace Bookkeeping.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "RecordId,RecordClass,RecordAmount,RecordDate,RecordMemo")] RecordDataViewModel record)
         {
-            //if (ModelState.IsValid)
-            //{
-                record.RecordId = Math.Abs((Guid.NewGuid().GetHashCode()));
-                _recordSvc.Add(record);
-                _recordSvc.Save();
+            record.RecordId = Math.Abs((Guid.NewGuid().GetHashCode()));
+            _recordSvc.Add(record);
+            _recordSvc.Save();
 
-                return RedirectToAction("Index");
-            //}
+            return RedirectToAction("Index");
+
             //var result = new RecordDataViewModel()
             //{
             //    RecordId = record.RecordId,
@@ -75,7 +66,17 @@ namespace Bookkeeping.Controllers
             //return View(result);
         }
 
+        public ActionResult RenderResult(int? page)
+        {
+            page = page ?? 1;
+            var wholePageList = getPagedList(page.Value);
+            return PartialView("_ListPartialView", wholePageList);
+        }
 
+        private IPagedList<RecordDataViewModel> getPagedList(int page)
+        {
+            return _recordSvc.Lookup().OrderByDescending(x => x.RecordDate).ToPagedList(page, pageSize);
+        }
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -83,9 +84,12 @@ namespace Bookkeeping.Controllers
             return View();
         }
 
-        private IPagedList<RecordDataViewModel> getPagedList(int page)
+
+        public ActionResult About()
         {
-            return _recordSvc.Lookup().OrderByDescending(x => x.RecordDate).ToPagedList(page, pageSize);
+            ViewBag.Message = "Your application description page.";
+
+            return View();
         }
     }
 }

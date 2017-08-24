@@ -8,49 +8,49 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
-            <div class="form-group">
-                @Html.LabelFor(model => model.RecordClass, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
-                    <select id="category" class="form-control">
-                        <option value="" selected>請選擇</option>
-                        <option>支出</option>
-                        <option>收入</option>
-                    </select>
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecordClass, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                <select id="category" class="form-control">
+                    <option value="" selected>請選擇</option>
+                    <option>支出</option>
+                    <option>收入</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.RecordClass, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.RecordAmount, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
-                    @Html.EditorFor(model => model.RecordAmount, new { htmlAttributes = new { @class = "form-control", placeholder = "金額", type = "text" } })
-                </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecordAmount, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.RecordAmount, new { htmlAttributes = new { @class = "form-control", placeholder = "金額" } })
+                @Html.ValidationMessageFor(model => model.RecordAmount, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.RecordDate, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
-                    @Html.EditorFor(model => model.RecordDate, new { htmlAttributes = new { @class = "form-control", placeholder = "日期", type = "date" } })
-                </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecordDate, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.RecordDate, new { htmlAttributes = new { @class = "form-control", placeholder = "日期" } })
+                @Html.ValidationMessageFor(model => model.RecordDate, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.RecordMemo, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
-                    @Html.TextAreaFor(model => model.RecordMemo, new { htmlAttributes = new { @class = "form-control", placeholder = "備註" } })
-                </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecordMemo, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextAreaFor(model => model.RecordMemo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RecordMemo, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-8 col-sm-4">
-                    <button type="submit" class="btn btn-default">送出</button>
-                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-8 col-sm-4">
+                <button type="submit" class="btn btn-default">送出</button>
             </div>
+        </div>
     }
 </div>
 <div id="insertedRecord">
     @Html.Action("RenderResult", "Home")
-    @Html.Partial("_ListPartialView")
+</div>
 
-
-    @section Scripts{
-        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-        <script src="~/Scripts/jquery.validate.min.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    }
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
